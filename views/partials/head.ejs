@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title || 'Student Records' %></title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header><span>Student Record Management System</span><span>VIGNESHWAR S - 26MX227</span></header>
+<nav aria-label="Main navigation">
+  <a href="/students" class="<%= active === 'records' ? 'active' : '' %>">Student records</a>
+  <a href="/students/add" class="<%= active === 'add' ? 'active' : '' %>">Add student</a>
+  <% if (isAdmin) { %>
+    <form class="nav-form" action="/logout" method="post"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="nav-button" type="submit">Sign out (<%= username %>)</button></form>
+  <% } else { %>
+    <a class="nav-signin <%= active === 'login' ? 'active' : '' %>" href="/login">Administrator sign in</a>
+  <% } %>
+</nav>
+<main>
+  <% if (notice) { %><p class="msg ok" role="status"><%= notice %></p><% } %>
+  <% if (error) { %><p class="msg bad" role="alert"><%= error %></p><% } %>
+

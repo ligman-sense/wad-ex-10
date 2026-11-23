@@ -1,0 +1,20 @@
+<%- include('../partials/head', { title: editing ? 'Edit Student' : 'Add Student', active: 'add' }) %>
+<section class="form-container">
+  <p class="eyebrow"><%= editing ? 'UPDATE A RECORD' : 'NEW RECORD' %></p><h1><%= editing ? 'Edit student' : 'Add student' %></h1>
+  <% if (typeof formError !== 'undefined' && formError) { %><p class="msg bad" role="alert"><%= formError %></p><% } %>
+  <form method="post" action="<%= editing ? `/students/update/${student.rollno}` : '/students/add' %>">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <div class="form-row"><label for="rollno">Roll number</label><input id="rollno" name="rollno" type="number" min="1" required value="<%= student.rollno || '' %>" <%= editing ? 'readonly' : '' %>></div>
+    <div class="form-row"><label for="name">Student name</label><input id="name" name="name" type="text" maxlength="100" required value="<%= student.name || '' %>"></div>
+    <div class="form-row"><label for="yearOfBirth">Year of birth</label><input id="yearOfBirth" name="yearOfBirth" type="number" min="1900" max="<%= new Date().getFullYear() %>" required value="<%= student.yearOfBirth || '' %>"></div>
+    <div class="form-row"><label for="yearOfAdmission">Year of admission</label><input id="yearOfAdmission" name="yearOfAdmission" type="number" min="1900" max="<%= new Date().getFullYear() %>" required value="<%= student.yearOfAdmission || '' %>"></div>
+    <div class="form-row"><label for="nativeCity">Native city</label><input id="nativeCity" name="nativeCity" type="text" maxlength="80" required value="<%= student.nativeCity || '' %>"></div>
+    <div class="form-row"><label for="phoneNumber">Phone number</label><input id="phoneNumber" name="phoneNumber" type="tel" pattern="[0-9]{10}" maxlength="10" inputmode="numeric" required value="<%= student.phoneNumber || '' %>"></div>
+    <div class="form-row"><label for="guardianPhoneNumber">Guardian phone · optional</label><input id="guardianPhoneNumber" name="guardianPhoneNumber" type="tel" pattern="[0-9]{10}" maxlength="10" inputmode="numeric" placeholder="10 digits, optional" value="<%= student.guardianPhoneNumber || '' %>"></div>
+    <fieldset><legend>Gender · Exercise 10</legend><div class="radio-options"><% ['Male', 'Female', 'Other'].forEach(option => { %><label><input type="radio" name="gender" value="<%= option %>" required <%= student.gender === option ? 'checked' : '' %>><span><%= option %></span></label><% }) %></div></fieldset>
+    <p class="hint">Admission year cannot be before the birth year. Phone numbers must contain exactly 10 digits.</p>
+    <button type="submit"><%= editing ? 'Update student' : 'Save student' %></button>
+  </form>
+</section>
+<%- include('../partials/foot') %>
+
